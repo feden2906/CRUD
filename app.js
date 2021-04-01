@@ -1,6 +1,8 @@
 const express = require('express');
 
 require('dotenv').config();
+require('./dataBase').getInstance().setModels();
+
 const { PORT } = require('./configs/configs');
 const { apiRouter } = require('./routers');
 
