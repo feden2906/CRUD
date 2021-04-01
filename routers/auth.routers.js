@@ -1,9 +1,11 @@
 const router = require('express').Router();
 
+const { authControllers } = require('../controllers');
+
 router.route('/')
-    .post();
+    .post(authControllers.authUser);
 
 router.route('refreshToken')
-    .post();
+    .post(authControllers.updateTokens);
 
 module.exports = router;
