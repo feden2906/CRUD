@@ -1,5 +1,7 @@
 const express = require('express');
 
+require('dotenv').config();
+const { PORT } = require('./configs/configs');
 const { apiRouter } = require('./routers');
 
 const app = express();
@@ -15,6 +17,6 @@ app.use('*', (err, req, res, next) => {
       .json({ text: err.message });
 });
 
-app.listen(5000, () => {
-  console.log(`server started to ${5000}`);
+app.listen(PORT, () => {
+  console.log(`server started to ${PORT}`);
 });
