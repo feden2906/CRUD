@@ -1,11 +1,23 @@
+const db = require('../dataBase').getInstance();
+
+const { USER } = require('../constants/modelNames.enum');
+
 module.exports = {
-  findUsers: () => {},
+  findUsers: () => {
+  },
 
-  findUsersById: () => {},
+  findUsersById: () => {
+  },
 
-  createUser: () => {},
+  createUser: (userObj) => {
+    const User = db.getModel(USER);
 
-  updateUser: () => {},
+    return User.create(userObj);
+  },
 
-  deleteUser: () => {}
+  updateUser: () => {
+  },
+
+  deleteUser: () => {
+  }
 };

@@ -1,7 +1,11 @@
-module.exports = {
-  getUsers: (req, res, next) => {
-    try {
+const { userService } = require('../services');
 
+module.exports = {
+  getUsers: async (req, res, next) => {
+    try {
+      const users = await userService.findUsers();
+
+      res.json(users);
     } catch (e) {
       next(e);
     }
@@ -15,9 +19,11 @@ module.exports = {
     }
   },
 
-  createUser: (req, res, next) => {
+  createUser: async (req, res, next) => {
     try {
+      await userService.createUser(req.body);
 
+      res.json('created');
     } catch (e) {
       next(e);
     }
