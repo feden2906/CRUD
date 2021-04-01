@@ -3,10 +3,18 @@ const db = require('../dataBase').getInstance();
 const { USER } = require('../constants/modelNames.enum');
 
 module.exports = {
-  findUsers: () => {
+  findUsers: (findObj) => {
+    const User = db.getModel(USER);
+
+    return User.findAll({ where: findObj });
   },
 
-  findUsersById: () => {
+  findUserById: async (userID) => {
+    const User = db.getModel(USER);
+
+    const { dataValues } = await User.findByPk(userID) || { };
+
+    return dataValues;
   },
 
   createUser: (userObj) => {
@@ -15,9 +23,15 @@ module.exports = {
     return User.create(userObj);
   },
 
-  updateUser: () => {
+  updateUser: (id, userObj, transaction) => {
+    const User = db.getModel(USER);
+
+    return User.update(userObj, { where: { id }, transaction });
   },
 
-  deleteUser: () => {
+  deleteUser: (id, transaction) => {
+    const User = db.getModel(USER);
+
+    return User.destroy({ where: { id }, transaction });
   }
 };
