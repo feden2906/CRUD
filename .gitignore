@@ -1,0 +1,9 @@
+/.idea
+/.idea/HW_node.iml
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/jsLibraryMappings.xml
+/node_modules
+
+package-lock.json
+.env
