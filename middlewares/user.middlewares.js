@@ -28,10 +28,10 @@ module.exports = {
         req.body.name = utils.nameNormalizator(name);
       }
 
-      // if (email) {
-      //   utils.emailNormalizator(email);
-      // }
-      //
+      if (email) {
+        req.body.email = utils.emailNormalizator(email);
+      }
+
       // if (phone) {
       //   utils.phoneNormalizator(phone);
       // }
