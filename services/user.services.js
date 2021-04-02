@@ -17,10 +17,10 @@ module.exports = {
     return dataValues;
   },
 
-  createUser: (userObj) => {
+  createUser: (userObj, transaction) => {
     const User = db.getModel(USER);
 
-    return User.create(userObj);
+    return User.create(userObj, transaction);
   },
 
   updateUser: (id, userObj, transaction) => {

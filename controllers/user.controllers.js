@@ -23,7 +23,7 @@ module.exports = {
   createUser: async (req, res, next) => {
     const transaction = await instanceTransaction();
     try {
-      await userService.createUser(req.body);
+      await userService.createUser(req.body, transaction);
 
       transaction.commit();
       res.json('created');
@@ -36,9 +36,13 @@ module.exports = {
   updateUser: async (req, res, next) => {
     const transaction = await instanceTransaction();
     try {
-      const { userID } = req.params;
+      const { body, params: { userID } } = req;
+
+      await userService.updateUser(userID, body, transaction)
 
       transaction.commit();
+
+      res.json('user was updated');
     } catch (e) {
       transaction.rollback();
       next(e);
