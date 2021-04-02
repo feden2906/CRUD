@@ -6,7 +6,8 @@ const { mwUser } = require('../middlewares');
 router.route('/')
     .get(userControllers.getUsers)
 
-    .post(userControllers.createUser);
+    .post(mwUser.normalizationUserData,
+      userControllers.createUser);
 
 router.route('/:userID')
     .get(mwUser.findUserById,
