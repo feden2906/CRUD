@@ -32,9 +32,9 @@ module.exports = {
         req.body.email = utils.emailNormalizator(email);
       }
 
-      // if (phone) {
-      //   utils.phoneNormalizator(phone);
-      // }
+      if (phone) {
+        req.body.phone = utils.phoneNormalizator(phone);
+      }
 
       next();
     } catch (e) {

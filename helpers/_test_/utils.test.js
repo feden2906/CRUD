@@ -1,4 +1,4 @@
-const { nameNormalizator, emailNormalizator } = require('../utils');
+const { nameNormalizator, emailNormalizator, phoneNormalizator } = require('../utils');
 
 const nameNormalizatorData = [
   { input: '---maksym**', output: 'Maksym' },
@@ -23,6 +23,17 @@ const emailNormalizatorData = [
   { input: '+380976322866', output: '380976322866' }, // incorrect work with phone
 ];
 
+const phoneNormalizatorData = [
+  { input: ' 097 63 22 866 ', output: '+380976322866' },
+  { input: '0976#3228% % 66', output: '+380976322866' },
+  { input: 'A+3809763228A66', output: '+380976322866' },
+  { input: '9 7 6 3 2 2866 ', output: '+380976322866' },
+  { input: '09763 2 2 8 6 6', output: '+380976322866' },
+  { input: '+38097&%6322866', output: '+380976322866' },
+  { input: '   M a k s y m    ', output: '+380' }, // incorrect work with name
+  { input: 'masym@gmail.com', output: '+380' }, // incorrect work with email
+];
+
 describe('Test utils.js', () => {
   test('Should return normalized name', () => {
     nameNormalizatorData.forEach((testObj) => {
@@ -37,6 +48,14 @@ describe('Test utils.js', () => {
       const email = emailNormalizator(testObj.input);
 
       expect(email).toBe(testObj.output);
+    });
+  });
+
+  test('Should return normalized phone', () => {
+    phoneNormalizatorData.forEach((testObj) => {
+      const phone = phoneNormalizator(testObj.input);
+
+      expect(phone).toBe(testObj.output);
     });
   });
 });

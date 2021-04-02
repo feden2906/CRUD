@@ -1,4 +1,13 @@
 module.exports = {
+  emailNormalizator: (email) => {
+    email = email.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    email = email.trim();
+    email = email.replace(/[,!#$%^&*()< >?:"':;}[\]{=+]/g, '');
+    email = email.toLowerCase();
+
+    return email;
+  },
+
   nameNormalizator: (name) => {
     name = name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     name = name.replace(/[,.!@#$%^&*()<>?:"':;}\-\[\]{=+]/g, '');
@@ -10,12 +19,13 @@ module.exports = {
     return name;
   },
 
-  emailNormalizator: (email) => {
-    email = email.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    email = email.trim();
-    email = email.replace(/[,!#$%^&*()< >?:"':;}[\]{=+]/g, '');
-    email = email.toLowerCase();
+  phoneNormalizator: (phone) => {
+    phone = phone.replace(/[,.!@#$%^&*QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm()< >?:"'|:;}\-\[\]{=+]/g, '');
+    phone = phone.slice(-9);
+    phone = phone.split('');
+    phone.unshift('+380');
+    phone = phone.join('');
 
-    return email;
+    return phone;
   }
 };
