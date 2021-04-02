@@ -38,7 +38,7 @@ module.exports = {
     try {
       const { body, params: { userID } } = req;
 
-      await userService.updateUser(userID, body, transaction)
+      await userService.updateUser(userID, body, transaction);
 
       transaction.commit();
 
@@ -52,10 +52,12 @@ module.exports = {
   deleteUser: async (req, res, next) => {
     const transaction = await instanceTransaction();
     try {
-      const { body, params: { userID } } = req;
+      const { userID } = req.params;
 
-      userService.deleteUser()
+      await userService.deleteUser(userID, transaction)
+
       transaction.commit();
+
       res.json('user was deleted');
     } catch (e) {
       transaction.rollback();
