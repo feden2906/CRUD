@@ -29,6 +29,14 @@ module.exports = {
         throw new ErrorHandler('User not found', statusCodes.BAD_REQUEST);
       }
 
+      if (user.deletedData) {
+        throw new ErrorHandler(`User account was deleted at ${user.deletedData}`, statusCodes.FORBIDDEN);
+      }
+
+      if (user.accountStatus === 'not activated') {
+        throw new ErrorHandler('Check your email for activation account', statusCodes.FORBIDDEN);
+      }
+
       req.profile = user;
       next();
     } catch (e) {
