@@ -1,11 +1,15 @@
 const { authService } = require('../services');
 const { instanceTransaction } = require('../dataBase').getInstance();
-const { tokenizer } = require('../helpers');
+const { passHasher, tokenizer } = require('../helpers');
 
 module.exports = {
   authUser: async (req, res, next) => {
     const transaction = await instanceTransaction();
     try {
+      const { body, user } = req;
+
+      await passHasher.compare(body.password, user.password);
+
       const tokens = tokenizer();
 
       await authService.saveTokenToBD({ ...tokens, userID: req.user.id }, transaction);

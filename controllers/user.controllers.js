@@ -1,5 +1,6 @@
-const { userService } = require('../services');
 const { instanceTransaction } = require('../dataBase').getInstance();
+const { userService } = require('../services');
+const { passHasher } = require('../helpers');
 
 module.exports = {
   getUsers: async (req, res, next) => {
@@ -23,7 +24,11 @@ module.exports = {
   createUser: async (req, res, next) => {
     const transaction = await instanceTransaction();
     try {
-      await userService.createUser(req.body, transaction);
+      const { body } = req;
+
+      const password = await passHasher.hash(body.password);
+
+      await userService.createUser({ ...body, password }, transaction);
 
       transaction.commit();
       res.json('created');
