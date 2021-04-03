@@ -31,7 +31,8 @@ module.exports = {
 
       await userService.createUser({ ...body, password: hashPassword }, transaction);
 
-      await mailService.sendMail(email, emailActions.CONFIRM, { name });
+      const urlWithToken = `http://localhost:5000/users?activateToken=${123}`;
+      await mailService.sendMail(email, emailActions.CONFIRM, { name, urlWithToken });
 
       transaction.commit();
       res.json('created');
