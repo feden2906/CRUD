@@ -1,6 +1,7 @@
 const { instanceTransaction } = require('../dataBase').getInstance();
 const { userService } = require('../services');
 const { passHasher } = require('../helpers');
+const { CURRENT_DATA } = require('../constants/constants');
 
 module.exports = {
   getUsers: async (req, res, next) => {
@@ -54,12 +55,12 @@ module.exports = {
     }
   },
 
-  deleteUser: async (req, res, next) => {
+  softDeleteUser: async (req, res, next) => {
     const transaction = await instanceTransaction();
     try {
       const { userID } = req.params;
 
-      await userService.deleteUser(userID, transaction);
+      await userService.updateUser(userID, { deletedData: CURRENT_DATA }, transaction);
 
       transaction.commit();
 

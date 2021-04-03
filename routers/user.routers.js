@@ -22,6 +22,6 @@ router.route('/:userID')
     .delete(mwAuth.checkAccessToken,
       mwUser.findUserById,
       mwAuth.isAllowed,
-      userControllers.deleteUser);
+      userControllers.softDeleteUser);
 
 module.exports = router;

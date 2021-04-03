@@ -35,11 +35,5 @@ module.exports = {
     const User = db.getModel(USER);
 
     return User.update(userObj, { where: { id }, transaction });
-  },
-
-  deleteUser: (id, transaction) => {
-    const User = db.getModel(USER);
-
-    return User.destroy({ where: { id }, transaction });
   }
 };
