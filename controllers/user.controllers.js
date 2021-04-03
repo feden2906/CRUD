@@ -1,7 +1,7 @@
 const { instanceTransaction } = require('../dataBase').getInstance();
-const { userService } = require('../services');
+const { mailService, userService } = require('../services');
 const { passHasher } = require('../helpers');
-const { CURRENT_DATA } = require('../constants/constants');
+const { constants: { CURRENT_DATA }, emailActions } = require('../constants');
 
 module.exports = {
   getUsers: async (req, res, next) => {
@@ -25,11 +25,13 @@ module.exports = {
   createUser: async (req, res, next) => {
     const transaction = await instanceTransaction();
     try {
-      const { body } = req;
+      const { body, body: { email, name, password } } = req;
 
-      const password = await passHasher.hash(body.password);
+      const hashPassword = await passHasher.hash(password);
 
-      await userService.createUser({ ...body, password }, transaction);
+      await userService.createUser({ ...body, password: hashPassword }, transaction);
+
+      await mailService.sendMail(email, emailActions.CONFIRM, { name });
 
       transaction.commit();
       res.json('created');
