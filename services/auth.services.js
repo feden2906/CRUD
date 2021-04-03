@@ -1,9 +1,7 @@
 module.exports = {
   saveTokenToBD: () => {},
 
-  getTokensByAccess: () => {},
-
-  getTokensByRefresh: () => {},
+  getTokens: () => {},
 
   deleteTokens: () => {}
 };

@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 const { userControllers } = require('../controllers');
-const { mwUser } = require('../middlewares');
+const { mwAuth, mwUser } = require('../middlewares');
 
 router.route('/')
     .get(userControllers.getUsers)
@@ -13,10 +13,13 @@ router.route('/:userID')
     .get(mwUser.findUserById,
       userControllers.getUserById)
 
-    .put(mwUser.findUserById,
+    .put(mwAuth.checkAccessToken,
+      mwUser.findUserById,
+      mwUser.normalizationUserData,
       userControllers.updateUser)
 
-    .delete(mwUser.findUserById,
+    .delete(mwAuth.checkAccessToken,
+      mwUser.findUserById,
       userControllers.deleteUser);
 
 module.exports = router;
