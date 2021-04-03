@@ -33,6 +33,10 @@ module.exports = (client) => {
       gender: {
         type: DataTypes.STRING,
         allowNull: false
+      },
+      deletedData: {
+        type: DataTypes.STRING,
+        allowNull: true
       }
     },
     {
