@@ -1,7 +1,23 @@
+const db = require('../dataBase').getInstance();
+
+const { AUTH } = require('../constants/modelNames.enum');
+
 module.exports = {
-  saveTokenToBD: () => {},
+  saveTokenToBD: (tokensObj, transaction) => {
+    const Auth = db.getModel(AUTH);
 
-  getTokens: () => {},
+    return Auth.create(tokensObj, transaction);
+  },
 
-  deleteTokens: () => {}
+  getTokens: (findObj) => {
+    const Auth = db.getModel(AUTH);
+
+    return Auth.findOne({ where: findObj });
+  },
+
+  deleteTokens: (tokensObj, transaction) => {
+    const Auth = db.getModel(AUTH);
+
+    return Auth.destroy({ where: tokensObj }, transaction);
+  }
 };

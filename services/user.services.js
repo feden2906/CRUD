@@ -17,6 +17,14 @@ module.exports = {
     return dataValues;
   },
 
+  findOneUser: async (findObj) => {
+    const User = db.getModel(USER);
+
+    const { dataValues } = await User.findOne({ where: findObj }) || { };
+
+    return dataValues;
+  },
+
   createUser: (userObj, transaction) => {
     const User = db.getModel(USER);
 

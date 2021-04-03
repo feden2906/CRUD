@@ -3,6 +3,22 @@ const { statusCodes } = require('../constants');
 const { ErrorHandler, utils } = require('../helpers');
 
 module.exports = {
+  isUserExist: async (req, res, next) => {
+    try {
+      const { email } = req.body;
+      const user = await userService.findOneUser({ email });
+
+      if (!user) {
+        throw new ErrorHandler('WRONG_EMAIL_OR_PASSWORD', statusCodes.BAD_REQUEST);
+      }
+
+      req.user = user;
+      next();
+    } catch (e) {
+      next(e);
+    }
+  },
+
   findUserById: async (req, res, next) => {
     try {
       const { userID } = req.params;
