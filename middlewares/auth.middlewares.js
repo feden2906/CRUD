@@ -57,5 +57,19 @@ module.exports = {
     } catch (e) {
       next(e);
     }
+  },
+
+  isAllowed: (req, res, next) => {
+    try {
+      const { tokens: { userID }, profile: { id } } = req;
+
+      if (+userID !== +id) {
+        throw new ErrorHandler('AUTHORIZATION', statusCodes.UNAUTHORIZED);
+      }
+
+      next();
+    } catch (e) {
+      next(e);
+    }
   }
 };

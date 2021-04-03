@@ -59,7 +59,7 @@ module.exports = {
     try {
       const { userID } = req.params;
 
-      await userService.deleteUser(userID, transaction)
+      await userService.deleteUser(userID, transaction);
 
       transaction.commit();
 

@@ -15,11 +15,13 @@ router.route('/:userID')
 
     .put(mwAuth.checkAccessToken,
       mwUser.findUserById,
+      mwAuth.isAllowed,
       mwUser.normalizationUserData,
       userControllers.updateUser)
 
     .delete(mwAuth.checkAccessToken,
       mwUser.findUserById,
+      mwAuth.isAllowed,
       userControllers.deleteUser);
 
 module.exports = router;

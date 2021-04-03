@@ -9,10 +9,12 @@ module.exports = {
     return Auth.create(tokensObj, transaction);
   },
 
-  getTokens: (findObj) => {
+  getTokens: async (findObj) => {
     const Auth = db.getModel(AUTH);
 
-    return Auth.findOne({ where: findObj });
+    const { dataValues } = await Auth.findOne({ where: findObj }) || { };
+
+    return dataValues;
   },
 
   deleteTokens: (tokensObj, transaction) => {
