@@ -37,6 +37,10 @@ module.exports = (client) => {
       deletedData: {
         type: DataTypes.STRING,
         allowNull: true
+      },
+      accountStatus: {
+        type: DataTypes.STRING,
+        defaultValue: 'not activated'
       }
     },
     {
