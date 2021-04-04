@@ -7,6 +7,7 @@ router.route('/')
     .get(userControllers.getUsers)
 
     .post(mwUser.normalizationUserData,
+      mwUser.isUserExist('create'),
       userControllers.createUser);
 
 router.route('/:userID')

@@ -4,7 +4,7 @@ const { authControllers } = require('../controllers');
 const { mwAuth, mwUser } = require('../middlewares');
 
 router.route('/')
-    .post(mwUser.isUserExist,
+    .post(mwUser.isUserExist('auth'),
       authControllers.authUser);
 
 router.route('/refreshToken')

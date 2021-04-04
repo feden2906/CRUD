@@ -29,13 +29,17 @@ module.exports = {
     }
   },
 
-  isUserExist: async (req, res, next) => {
+  isUserExist: (purpose) => async (req, res, next) => {
     try {
       const { email } = req.body;
       const user = await userService.findOneUser({ email });
 
-      if (!user) {
+      if (!user && purpose === 'auth') {
         throw new ErrorHandler('WRONG_EMAIL_OR_PASSWORD', statusCodes.BAD_REQUEST);
+      }
+
+      if (user && purpose === 'create') {
+        throw new ErrorHandler('User with this email is exist', statusCodes.BAD_REQUEST);
       }
 
       req.user = user;
