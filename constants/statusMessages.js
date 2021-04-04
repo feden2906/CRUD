@@ -19,7 +19,7 @@ module.exports = {
   WRONG_EMAIL_OR_PASSWORD: 'Wrong email or password',
 
   // NOT_VALID_ID: 'Not Valid ID',
-  // NOT_VALID_FILE: 'Not allowed file type',
-  // FILE_TOO_BIG: 'File to big',
-  // JUST_ONE_PHOTO: 'Can upload just one photo via field - "avatar"',
+  NOT_VALID_FILE: 'Not allowed file type',
+  FILE_TOO_BIG: 'File to big',
+  JUST_ONE_PHOTO: 'Can upload only one photo via field - "avatar"',
 };

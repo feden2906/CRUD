@@ -1,7 +1,12 @@
-const { constants: { CURRENT_DATA }, emailActions, keyWords: { ACTIVATED }, statusMessages } = require('../constants');
+const fs = require('fs-extra').promises;
+
+const {
+  keyWords: { ACTIVATED }, constants: { CURRENT_DATA }, folderNames: { PHOTOS, USERS },
+  emailActions, statusMessages
+} = require('../constants');
 const { DOMEN, PROTOCOL } = require('../configs/configs');
 const { instanceTransaction } = require('../dataBase').getInstance();
-const { passHasher, tokenizer } = require('../helpers');
+const { fileDirBuilder, passHasher, tokenizer } = require('../helpers');
 const { mailService, userService } = require('../services');
 
 module.exports = {
@@ -21,7 +26,7 @@ module.exports = {
   createUser: async (req, res, next) => {
     const transaction = await instanceTransaction();
     try {
-      const { body, body: { email, name, password } } = req;
+      const { avatar, body, body: { email, name, password } } = req;
 
       const hashPassword = await passHasher.hash(password);
 
@@ -31,6 +36,14 @@ module.exports = {
         { ...body, accountStatus: activate_token, password: hashPassword },
         transaction
       );
+
+      if (avatar) {
+        const { finalPath, pathForDB, fullDirPath } = fileDirBuilder(avatar.name, id.toString(), USERS, PHOTOS);
+
+        await fs.mkdir(fullDirPath, { recursive: true });
+        await avatar.mv(finalPath);
+        await userService.updateUser(id, { pathToAvatar: pathForDB }, transaction);
+      }
 
       const urlWithToken = `${PROTOCOL}${DOMEN}/users/${id}?activate_token=${activate_token}`;
 

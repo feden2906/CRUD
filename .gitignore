@@ -3,7 +3,9 @@
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/jsLibraryMappings.xml
+
 /node_modules
+/public
 
 package-lock.json
 .env

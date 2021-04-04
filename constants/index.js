@@ -1,6 +1,7 @@
 module.exports = {
   constants: require('./constants'),
   emailActions: require('./emailActions.enum'),
+  folderNames: require('./folderNames.enum'),
   keyWords: require('./keyWords.enum'),
   modelNames: require('./modelNames.enum'),
   regexpEnum: require('./regexp.enum'),

@@ -38,6 +38,10 @@ module.exports = (client) => {
         type: DataTypes.STRING,
         allowNull: true
       },
+      pathToAvatar: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
       accountStatus: {
         type: DataTypes.STRING,
         defaultValue: 'not activated'

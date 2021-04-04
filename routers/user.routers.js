@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const { CREATE } = require('../constants/keyWords.enum');
 const { userControllers } = require('../controllers');
-const { mwAuth, mwUser } = require('../middlewares');
+const { mwAuth, mwFile, mwUser } = require('../middlewares');
 const { createUserValidator, updateUserValidator } = require('../validators/user');
 
 router.route('/')
@@ -11,6 +11,7 @@ router.route('/')
     .post(mwUser.normalizationUserData,
       mwUser.isUserExist(CREATE),
       mwUser.isUserValid(createUserValidator),
+      mwFile.checkAvatar,
       userControllers.createUser);
 
 router.route('/:userID')
@@ -24,6 +25,7 @@ router.route('/:userID')
       mwAuth.checkStatusAccount,
       mwUser.normalizationUserData,
       mwUser.isUserValid(updateUserValidator),
+      mwFile.checkAvatar,
       userControllers.updateUser)
 
     .patch(mwUser.checkActivateToken,
