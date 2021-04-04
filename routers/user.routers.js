@@ -19,6 +19,9 @@ router.route('/:userID')
       mwUser.normalizationUserData,
       userControllers.updateUser)
 
+    .patch(mwUser.checkActivateToken,
+      userControllers.activateAccount)
+
     .delete(mwAuth.checkAccessToken,
       mwUser.findUserById,
       mwAuth.isAllowed,

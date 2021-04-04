@@ -28,7 +28,7 @@ module.exports = {
   createUser: (userObj, transaction) => {
     const User = db.getModel(USER);
 
-    return User.create(userObj, transaction);
+    return User.create(userObj, { transaction, returning: true });
   },
 
   updateUser: (id, userObj, transaction) => {
