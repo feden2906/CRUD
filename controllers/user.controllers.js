@@ -1,4 +1,4 @@
-const { constants: { CURRENT_DATA }, emailActions } = require('../constants');
+const { constants: { CURRENT_DATA }, emailActions, keyWords: { ACTIVATED }, statusMessages } = require('../constants');
 const { DOMEN, PROTOCOL } = require('../configs/configs');
 const { instanceTransaction } = require('../dataBase').getInstance();
 const { passHasher, tokenizer } = require('../helpers');
@@ -8,7 +8,7 @@ module.exports = {
   activateAccount: async (req, res, next) => {
     const transaction = await instanceTransaction();
     try {
-      await userService.updateUser(req.user.id, { accountStatus: 'activated' }, transaction);
+      await userService.updateUser(req.user.id, { accountStatus: ACTIVATED }, transaction);
 
       await transaction.commit();
       res.json('Account was activated');
@@ -36,17 +36,17 @@ module.exports = {
 
       await mailService.sendMail(email, emailActions.CONFIRM, { name, urlWithToken });
 
-      transaction.commit();
-      res.json('created');
+      await transaction.commit();
+      res.json(statusMessages.USER_WAS_CREATED);
     } catch (e) {
-      transaction.rollback();
+      await transaction.rollback();
       next(e);
     }
   },
 
   getUsers: async (req, res, next) => {
     try {
-      const users = await userService.findUsers({ ...req.query, accountStatus: 'activated' });
+      const users = await userService.findUsers({ ...req.query, accountStatus: ACTIVATED });
 
       res.json(users);
     } catch (e) {
@@ -76,11 +76,11 @@ module.exports = {
 
       await userService.updateUser(userID, { ...body, password }, transaction);
 
-      transaction.commit();
+      await transaction.commit();
 
-      res.json('user was updated');
+      res.json(statusMessages.USER_WAS_UPDATED);
     } catch (e) {
-      transaction.rollback();
+      await transaction.rollback();
       next(e);
     }
   },
@@ -94,7 +94,7 @@ module.exports = {
 
       transaction.commit();
 
-      res.json('user was deleted');
+      res.json(statusMessages.USER_DELETED_NOW);
     } catch (e) {
       transaction.rollback();
       next(e);

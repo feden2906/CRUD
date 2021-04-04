@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const { userService } = require('../services');
-const { statusCodes } = require('../constants');
+const { keyWords: { AUTH, CREATE }, statusCodes, statusMessages } = require('../constants');
 const { JWT_CONFIRM_SECRET } = require('../configs/configs');
 const { ErrorHandler, utils } = require('../helpers');
 
@@ -13,12 +13,12 @@ module.exports = {
       const user = await userService.findOneUser({ accountStatus: activate_token });
 
       if (!user) {
-        throw new ErrorHandler('TOKEN_NOT_VALID', statusCodes.BAD_REQUEST);
+        throw new ErrorHandler(statusMessages.TOKEN_NOT_VALID, statusCodes.BAD_REQUEST);
       }
 
       jwt.verify(activate_token, JWT_CONFIRM_SECRET, (err) => {
         if (err) {
-          throw new ErrorHandler('TOKEN_NOT_VALID', statusCodes.UNAUTHORIZED);
+          throw new ErrorHandler(statusMessages.TOKEN_NOT_VALID, statusCodes.UNAUTHORIZED);
         }
       });
 
@@ -34,12 +34,12 @@ module.exports = {
       const { email } = req.body;
       const user = await userService.findOneUser({ email });
 
-      if (!user && purpose === 'auth') {
-        throw new ErrorHandler('WRONG_EMAIL_OR_PASSWORD', statusCodes.BAD_REQUEST);
+      if (!user && purpose === AUTH) {
+        throw new ErrorHandler(statusMessages.WRONG_EMAIL_OR_PASSWORD, statusCodes.BAD_REQUEST);
       }
 
-      if (user && purpose === 'create') {
-        throw new ErrorHandler('User with this email is exist', statusCodes.BAD_REQUEST);
+      if (user && purpose === CREATE) {
+        throw new ErrorHandler(statusMessages.USER_IS_EXISTS, statusCodes.BAD_REQUEST);
       }
 
       req.user = user;
@@ -70,11 +70,11 @@ module.exports = {
       const user = await userService.findUserById(userID);
 
       if (!user) {
-        throw new ErrorHandler('User not found', statusCodes.BAD_REQUEST);
+        throw new ErrorHandler(statusMessages.USER_NOT_FOUND, statusCodes.BAD_REQUEST);
       }
 
       if (user.deletedData) {
-        throw new ErrorHandler(`User account was deleted at ${user.deletedData}`, statusCodes.FORBIDDEN);
+        throw new ErrorHandler(statusMessages.USER_WAS_DELETED(user.deletedData), statusCodes.FORBIDDEN);
       }
 
       req.profile = user;

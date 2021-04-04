@@ -14,10 +14,10 @@ module.exports = {
 
       await authService.saveTokenToBD({ ...tokens, userID: req.user.id }, transaction);
 
-      transaction.commit();
+      await transaction.commit();
       res.json(tokens);
     } catch (e) {
-      transaction.rollback();
+      await transaction.rollback();
       next(e);
     }
   },
@@ -31,10 +31,10 @@ module.exports = {
 
       await authService.saveTokenToBD({ ...tokens, userID }, transaction);
 
-      transaction.commit();
+      await transaction.commit();
       res.json(tokens);
     } catch (e) {
-      transaction.rollback();
+      await transaction.rollback();
       next(e);
     }
   }

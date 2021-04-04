@@ -1,11 +1,11 @@
-const nodemailer = require('nodemailer');
 const EmailTemplates = require('email-templates');
+const nodemailer = require('nodemailer');
 const path = require('path');
 
-const { ROOT_EMAIL, ROOT_EMAIL_PASSWORD } = require('../configs/configs');
-const { statusCodes } = require('../constants');
-const templateInfo = require('../email-templates');
 const { ErrorHandler } = require('../helpers');
+const { ROOT_EMAIL, ROOT_EMAIL_PASSWORD } = require('../configs/configs');
+const { keyWords: { PLATFORM_NAME }, statusCodes, statusMessages } = require('../constants');
+const templateInfo = require('../email-templates');
 
 const templateParser = new EmailTemplates({
   views: {
@@ -26,13 +26,13 @@ module.exports = {
     const chosenTemplate = templateInfo[action];
 
     if (!chosenTemplate) {
-      throw new ErrorHandler('WRONG_EMAIL_ACTION', statusCodes.BAD_REQUEST);
+      throw new ErrorHandler(statusMessages.WRONG_EMAIL_ACTION, statusCodes.BAD_REQUEST);
     }
 
     const html = await templateParser.render(chosenTemplate.templateName, context);
 
     return transporter.sendMail({
-      from: 'Odnoklassniki',
+      from: PLATFORM_NAME,
       to: userMail,
       subject: chosenTemplate.subject,
       html

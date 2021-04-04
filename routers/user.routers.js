@@ -1,5 +1,6 @@
 const router = require('express').Router();
 
+const { CREATE } = require('../constants/keyWords.enum');
 const { userControllers } = require('../controllers');
 const { mwAuth, mwUser } = require('../middlewares');
 const { createUserValidator, updateUserValidator } = require('../validators/user');
@@ -8,7 +9,7 @@ router.route('/')
     .get(userControllers.getUsers)
 
     .post(mwUser.normalizationUserData,
-      mwUser.isUserExist('create'),
+      mwUser.isUserExist(CREATE),
       mwUser.isUserValid(createUserValidator),
       userControllers.createUser);
 
