@@ -1,9 +1,13 @@
 module.exports = {
   JWT_SECRET: process.env.JWT_SECRET || 'MY_SECRET',
+  JWT_CONFIRM_SECRET: process.env.JWT_CONFIRM_SECRET || 'MY_CONFIRM_SECRET',
   JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET || 'MY_REFRESH_SECRET',
 
   SENTRY_DSN: process.env.SENTRY_DSN || 'MyDSN',
   PORT: process.env.PORT || 0,
+
+  PROTOCOL: process.env.PROTOCOL || 'http://',
+  DOMEN: process.env.DOMEN || 'localhost:5000',
 
   ROOT_EMAIL: process.env.ROOT_EMAIL || 'default@gmail.com',
   ROOT_EMAIL_PASSWORD: process.env.ROOT_EMAIL_PASSWORD || 'default',

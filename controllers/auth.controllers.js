@@ -10,7 +10,7 @@ module.exports = {
 
       await passHasher.compare(body.password, user.password);
 
-      const tokens = tokenizer();
+      const tokens = tokenizer.authTokens();
 
       await authService.saveTokenToBD({ ...tokens, userID: req.user.id }, transaction);
 
@@ -27,7 +27,7 @@ module.exports = {
     try {
       const { userID } = req.tokens;
 
-      const tokens = tokenizer();
+      const tokens = tokenizer.authTokens();
 
       await authService.saveTokenToBD({ ...tokens, userID }, transaction);
 

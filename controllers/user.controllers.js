@@ -1,7 +1,8 @@
-const { instanceTransaction } = require('../dataBase').getInstance();
-const { mailService, userService } = require('../services');
-const { passHasher } = require('../helpers');
 const { constants: { CURRENT_DATA }, emailActions } = require('../constants');
+const { DOMEN, PROTOCOL } = require('../configs/configs');
+const { instanceTransaction } = require('../dataBase').getInstance();
+const { passHasher, tokenizer } = require('../helpers');
+const { mailService, userService } = require('../services');
 
 module.exports = {
   getUsers: async (req, res, next) => {
@@ -29,9 +30,12 @@ module.exports = {
 
       const hashPassword = await passHasher.hash(password);
 
-      await userService.createUser({ ...body, password: hashPassword }, transaction);
+      const activate_token = tokenizer.confirmToken();
 
-      const urlWithToken = `http://localhost:5000/users?activateToken=${123}`;
+      await userService.createUser({ ...body, accountStatus: activate_token, password: hashPassword }, transaction);
+
+      const urlWithToken = `${PROTOCOL}${DOMEN}/users?activate_token=${activate_token}`;
+
       await mailService.sendMail(email, emailActions.CONFIRM, { name, urlWithToken });
 
       transaction.commit();
