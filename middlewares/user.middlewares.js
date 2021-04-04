@@ -4,7 +4,6 @@ const { userService } = require('../services');
 const { statusCodes } = require('../constants');
 const { JWT_CONFIRM_SECRET } = require('../configs/configs');
 const { ErrorHandler, utils } = require('../helpers');
-const { userValidators } = require('../validators');
 
 module.exports = {
   checkActivateToken: async (req, res, next) => {
@@ -50,9 +49,9 @@ module.exports = {
     }
   },
 
-  isUserValid: (req, res, next) => {
+  isUserValid: (validatorType) => (req, res, next) => {
     try {
-      const { error } = userValidators.createUserValidator.validate(req.body);
+      const { error } = validatorType.validate(req.body);
 
       if (error) {
         throw new ErrorHandler(error.details[0].message, statusCodes.BAD_REQUEST);
@@ -76,10 +75,6 @@ module.exports = {
 
       if (user.deletedData) {
         throw new ErrorHandler(`User account was deleted at ${user.deletedData}`, statusCodes.FORBIDDEN);
-      }
-
-      if (user.accountStatus !== 'activated') {
-        throw new ErrorHandler('Check your email for activation account', statusCodes.FORBIDDEN);
       }
 
       req.profile = user;

@@ -2,16 +2,17 @@ const router = require('express').Router();
 
 const { userControllers } = require('../controllers');
 const { mwAuth, mwUser } = require('../middlewares');
+const { createUserValidator, updateUserValidator } = require('../validators/user');
 
 router.route('/')
-    .get(userControllers.getUsers)
+    .get(userControllers.getUsers) // TODO check accountStatus
 
     .post(mwUser.normalizationUserData,
       mwUser.isUserExist('create'),
-      mwUser.isUserValid,
+      mwUser.isUserValid(createUserValidator),
       userControllers.createUser);
 
-router.route('/:userID')
+router.route('/:userID') // TODO check accountStatus
     .get(mwUser.findUserById,
       userControllers.getUserById)
 
@@ -19,6 +20,7 @@ router.route('/:userID')
       mwUser.findUserById,
       mwAuth.isAllowed,
       mwUser.normalizationUserData,
+      mwUser.isUserValid(updateUserValidator),
       userControllers.updateUser)
 
     .patch(mwUser.checkActivateToken,

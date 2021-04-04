@@ -66,8 +66,13 @@ module.exports = {
     const transaction = await instanceTransaction();
     try {
       const { body, params: { userID } } = req;
+      let { password } = body;
 
-      await userService.updateUser(userID, body, transaction);
+      if (password) {
+        password = await passHasher.hash(password);
+      }
+
+      await userService.updateUser(userID, { ...body, password }, transaction);
 
       transaction.commit();
 

@@ -61,10 +61,14 @@ module.exports = {
 
   isAllowed: (req, res, next) => {
     try {
-      const { tokens: { userID }, profile: { id } } = req;
+      const { tokens: { userID }, profile: { id, accountStatus } } = req;
 
       if (+userID !== +id) {
         throw new ErrorHandler('AUTHORIZATION', statusCodes.UNAUTHORIZED);
+      }
+
+      if (accountStatus !== 'activated') {
+        throw new ErrorHandler('Check your email for activation account', statusCodes.FORBIDDEN);
       }
 
       next();
