@@ -6,7 +6,10 @@ module.exports = {
   findUsers: (findObj) => {
     const User = db.getModel(USER);
 
-    return User.findAll({ where: findObj });
+    return User.findAll({
+      where: findObj,
+      attributes: { exclude: ['password'] }
+    });
   },
 
   findUserById: async (userID) => {

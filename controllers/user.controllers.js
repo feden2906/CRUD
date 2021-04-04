@@ -56,6 +56,8 @@ module.exports = {
 
   getUserById: (req, res, next) => {
     try {
+      delete req.profile.password;
+
       res.json(req.profile);
     } catch (e) {
       next(e);
