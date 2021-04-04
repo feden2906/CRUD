@@ -41,7 +41,9 @@ module.exports = {
         const { finalPath, pathForDB, fullDirPath } = fileDirBuilder(avatar.name, id.toString(), USERS, PHOTOS);
 
         await fs.mkdir(fullDirPath, { recursive: true });
+
         await avatar.mv(finalPath);
+
         await userService.updateUser(id, { pathToAvatar: pathForDB }, transaction);
       }
 
@@ -80,17 +82,25 @@ module.exports = {
   updateUser: async (req, res, next) => {
     const transaction = await instanceTransaction();
     try {
-      const { body, params: { userID } } = req;
-      let { password } = body;
+      const { avatar, body, body: { password }, params: { userID } } = req;
 
       if (password) {
-        password = await passHasher.hash(password);
+        body.password = await passHasher.hash(password);
       }
 
-      await userService.updateUser(userID, { ...body, password }, transaction);
+      if (avatar) {
+        const { finalPath, pathForDB, fullDirPath } = fileDirBuilder(avatar.name, userID, USERS, PHOTOS);
+
+        await fs.mkdir(fullDirPath, { recursive: true });
+
+        await avatar.mv(finalPath);
+
+        body.pathToAvatar = pathForDB;
+      }
+
+      await userService.updateUser(userID, body, transaction);
 
       await transaction.commit();
-
       res.json(statusMessages.USER_WAS_UPDATED);
     } catch (e) {
       await transaction.rollback();
