@@ -46,7 +46,7 @@ module.exports = {
 
   getUsers: async (req, res, next) => {
     try {
-      const users = await userService.findUsers(req.query);
+      const users = await userService.findUsers({ ...req.query, accountStatus: 'activated' });
 
       res.json(users);
     } catch (e) {
