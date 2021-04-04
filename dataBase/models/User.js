@@ -45,6 +45,9 @@ module.exports = (client) => {
       accountStatus: {
         type: DataTypes.STRING,
         defaultValue: 'not activated'
+      },
+      restoreToken: {
+        type: DataTypes.STRING,
       }
     },
     {

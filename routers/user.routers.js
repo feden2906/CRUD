@@ -28,13 +28,14 @@ router.route('/:userID')
       mwFile.checkAvatar,
       userControllers.updateUser)
 
-    .patch(mwUser.checkActivateToken,
-      userControllers.activateAccount)
-
     .delete(mwAuth.checkAccessToken,
       mwUser.findUserById,
       mwAuth.isAllowed,
       mwAuth.checkStatusAccount,
       userControllers.softDeleteUser);
+
+router.route('/:userID/activate')
+    .get(mwUser.checkActivateToken,
+      userControllers.activateAccount);
 
 module.exports = router;

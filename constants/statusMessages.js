@@ -1,5 +1,6 @@
 module.exports = {
   CHECK_EMAIL_FOR_ACTIVATE: 'Check your email for activation account',
+  CHECK_EMAIL_FOR_RESET: 'Check your email for reset your password',
 
   FORBIDDEN: 'Forbidden',
 
@@ -18,7 +19,6 @@ module.exports = {
   WRONG_EMAIL_ACTION: 'Wrong email action',
   WRONG_EMAIL_OR_PASSWORD: 'Wrong email or password',
 
-  // NOT_VALID_ID: 'Not Valid ID',
   NOT_VALID_FILE: 'Not allowed file type',
   FILE_TOO_BIG: 'File to big',
   JUST_ONE_PHOTO: 'Can upload only one photo via field - "avatar"',

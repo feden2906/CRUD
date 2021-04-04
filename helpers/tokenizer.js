@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { JWT_CONFIRM_SECRET, JWT_REFRESH_SECRET, JWT_SECRET } = require('../configs/configs');
+const { JWT_CONFIRM_SECRET, JWT_REFRESH_SECRET, JWT_RESTORE_SECRET, JWT_SECRET } = require('../configs/configs');
 
 module.exports = {
   authTokens: () => {
@@ -12,5 +12,7 @@ module.exports = {
     };
   },
 
-  confirmToken: () => jwt.sign({}, JWT_CONFIRM_SECRET, { expiresIn: '1d' })
+  confirmToken: () => jwt.sign({}, JWT_CONFIRM_SECRET, { expiresIn: '1d' }),
+
+  restoreToken: () => jwt.sign({}, JWT_RESTORE_SECRET, { expiresIn: '10m' })
 };

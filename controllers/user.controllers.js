@@ -47,7 +47,7 @@ module.exports = {
         await userService.updateUser(id, { pathToAvatar: pathForDB }, transaction);
       }
 
-      const urlWithToken = `${PROTOCOL}${DOMEN}/users/${id}?activate_token=${activate_token}`;
+      const urlWithToken = `${PROTOCOL}${DOMEN}/users/${id}/activate?activate_token=${activate_token}`;
 
       await mailService.sendMail(email, emailActions.CONFIRM, { name, urlWithToken });
 
