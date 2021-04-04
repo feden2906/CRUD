@@ -4,6 +4,7 @@ const { userService } = require('../services');
 const { statusCodes } = require('../constants');
 const { JWT_CONFIRM_SECRET } = require('../configs/configs');
 const { ErrorHandler, utils } = require('../helpers');
+const { userValidators } = require('../validators');
 
 module.exports = {
   checkActivateToken: async (req, res, next) => {
@@ -43,6 +44,20 @@ module.exports = {
       }
 
       req.user = user;
+      next();
+    } catch (e) {
+      next(e);
+    }
+  },
+
+  isUserValid: (req, res, next) => {
+    try {
+      const { error } = userValidators.createUserValidator.validate(req.body);
+
+      if (error) {
+        throw new ErrorHandler(error.details[0].message, statusCodes.BAD_REQUEST);
+      }
+
       next();
     } catch (e) {
       next(e);
