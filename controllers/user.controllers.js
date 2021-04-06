@@ -59,18 +59,9 @@ module.exports = {
     }
   },
 
-  getUsers: (req, res, next) => {
+  getUsers: async (req, res, next) => {
     try {
-      const users = {
-        name: 'dimasss',
-        password: '123456@Fe',
-        email: 'maks@gmail.com',
-        phone: '+38(097)632-28-66',
-        isMarried: true,
-        gender: 'male',
-        yearBorn: 2002
-      };
-      // await userService.findUsers({ ...req.query, accountStatus: ACTIVATED });
+      const users = await userService.findUsers({ ...req.query, accountStatus: ACTIVATED });
 
       res.json(users);
     } catch (e) {
