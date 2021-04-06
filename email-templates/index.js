@@ -7,7 +7,7 @@ module.exports = {
   },
 
   [emailActions.RESTORE]: {
-    templateName: 'confirm-email',
+    templateName: 'reset-password',
     subject: 'Reset your password'
   }
 };
