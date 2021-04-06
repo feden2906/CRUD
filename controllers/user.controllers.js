@@ -59,9 +59,18 @@ module.exports = {
     }
   },
 
-  getUsers: async (req, res, next) => {
+  getUsers: (req, res, next) => {
     try {
-      const users = await userService.findUsers({ ...req.query, accountStatus: ACTIVATED });
+      const users = {
+        name: 'dimasss',
+        password: '123456@Fe',
+        email: 'maks@gmail.com',
+        phone: '+38(097)632-28-66',
+        isMarried: true,
+        gender: 'male',
+        yearBorn: 2002
+      };
+      // await userService.findUsers({ ...req.query, accountStatus: ACTIVATED });
 
       res.json(users);
     } catch (e) {
@@ -82,7 +91,9 @@ module.exports = {
   updateUser: async (req, res, next) => {
     const transaction = await instanceTransaction();
     try {
-      const { avatar, body, body: { password }, params: { userID } } = req;
+      const {
+        avatar, body, body: { password }, params: { userID }
+      } = req;
 
       if (password) {
         body.password = await passHasher.hash(password);
